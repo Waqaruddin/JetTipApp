@@ -3,14 +3,19 @@
 package com.example.jettipapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -83,11 +88,21 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
-    val totalBillState = remember {mutableStateOf("")}
+    BillForm() { billAmt ->
+        Log.d("AMT", "MainContent: $billAmt")
+    }
+}
+
+@Composable
+fun BillForm(
+    modifier: Modifier = Modifier,
+    onValChange: (String) -> Unit = {}
+) {
+    val totalBillState = remember { mutableStateOf("") }
     val validState = remember(totalBillState.value) {
         totalBillState.value.trim().isNotEmpty()
     }
-    val keyboardController =  LocalSoftwareKeyboardController.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     Surface(
         modifier = Modifier
             .padding(2.dp)
@@ -95,17 +110,35 @@ fun MainContent() {
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
-        Column() {
-           InputField(
-               valueState = totalBillState,
-               labelId = "Enter Bill",
-               enabled = true,
-               isSingleLine = true,
-               onAction = KeyboardActions{
-                   if(!validState) return@KeyboardActions
-                   keyboardController?.hide()
-               }
-           )
+        Column(modifier = Modifier.padding(6.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start) {
+            InputField(
+                valueState = totalBillState,
+                labelId = "Enter Bill",
+                enabled = true,
+                isSingleLine = true,
+                onAction = KeyboardActions {
+                    if (!validState) return@KeyboardActions
+                    onValChange(totalBillState.value.trim())
+                    keyboardController?.hide()
+                })
+            if (validState) {
+                Row(
+                    modifier = Modifier.padding(3.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        "Split", modifier = Modifier.align(
+                            alignment = Alignment.CenterVertically
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(120.dp))
+                }
+
+            } else {
+                Box() {}
+            }
         }
     }
 }
