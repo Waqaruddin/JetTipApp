@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.example.jettipapp
 
 import android.os.Bundle
@@ -35,7 +37,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                TopHeader()
+                //TopHeader()
+                MainContent()
             }
         }
     }
@@ -77,7 +80,6 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun MainContent() {
