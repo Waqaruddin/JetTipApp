@@ -3,6 +3,7 @@ package com.example.jettipapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                Text(text = "Hello Again")
+                TopHeader()
             }
         }
     }
@@ -41,9 +42,9 @@ fun MyApp(content: @Composable () -> Unit) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
-fun TopHeader() {
+fun TopHeader(totalPerPerson: Double = 134.0) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,22 +57,35 @@ fun TopHeader() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Total Per Person",
-                style = MaterialTheme.typography.headlineMedium)
-            Text(text = "$134",
+            val total = "%.2f".format(totalPerPerson)
+            Text(
+                text = "Total Per Person",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "$$total",
                 style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.ExtraBold)
+                fontWeight = FontWeight.ExtraBold
+            )
         }
     }
 }
 
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun GreetingPreview() {
-    JetTipAppTheme {
-        MyApp {
-            Text("Hello Again")
+fun MainContent() {
+    Surface(
+        modifier = Modifier
+            .padding(2.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(corner = CornerSize(8.dp)),
+        border = BorderStroke(width = 1.dp, color = Color.LightGray)
+    ) {
+        Column() {
+            Text("Hello again..")
+            Text("Hello again..")
+            Text("Hello again..")
+
         }
     }
 }
