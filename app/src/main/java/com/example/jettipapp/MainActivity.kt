@@ -19,6 +19,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jettipapp.components.InputField
 import com.example.jettipapp.ui.theme.JetTipAppTheme
+import com.example.jettipapp.widgets.RoundIconButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,9 +114,11 @@ fun BillForm(
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
-        Column(modifier = Modifier.padding(6.dp),
+        Column(
+            modifier = Modifier.padding(6.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start) {
+            horizontalAlignment = Alignment.Start
+        ) {
             InputField(
                 valueState = totalBillState,
                 labelId = "Enter Bill",
@@ -134,6 +140,14 @@ fun BillForm(
                         )
                     )
                     Spacer(modifier = Modifier.width(120.dp))
+                    Row(
+                        modifier = Modifier.padding(horizontal = 3.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        RoundIconButton(imageVector = Icons.Default.Remove, onClick = { Log.d("Icon", "BillForm: Removed") })
+
+                        RoundIconButton(imageVector = Icons.Default.Add, onClick = { Log.d("Icon", "BillForm: Add")})
+                    }
                 }
 
             } else {
