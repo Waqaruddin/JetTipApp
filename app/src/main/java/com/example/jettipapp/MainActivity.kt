@@ -8,7 +8,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -107,6 +107,9 @@ fun BillForm(
         totalBillState.value.trim().isNotEmpty()
     }
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val sliderPositionState = remember { mutableStateOf(0f) }
+
     Surface(
         modifier = Modifier
             .padding(2.dp)
@@ -129,30 +132,64 @@ fun BillForm(
                     onValChange(totalBillState.value.trim())
                     keyboardController?.hide()
                 })
-            if (validState) {
-                Row(
-                    modifier = Modifier.padding(3.dp),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Text(
-                        "Split", modifier = Modifier.align(
-                            alignment = Alignment.CenterVertically
-                        )
+            // if (validState) {
+            Row(
+                modifier = Modifier.padding(3.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    "Split", modifier = Modifier.align(
+                        alignment = Alignment.CenterVertically
                     )
-                    Spacer(modifier = Modifier.width(120.dp))
-                    Row(
-                        modifier = Modifier.padding(horizontal = 3.dp),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        RoundIconButton(imageVector = Icons.Default.Remove, onClick = { Log.d("Icon", "BillForm: Removed") })
+                )
+                Spacer(modifier = Modifier.width(120.dp))
+                Row(
+                    modifier = Modifier.padding(horizontal = 3.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    RoundIconButton(
+                        imageVector = Icons.Default.Remove,
+                        onClick = { Log.d("Icon", "BillForm: Removed") })
+                    Text(
+                        text = "3",
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 9.dp, end = 9.dp)
+                    )
 
-                        RoundIconButton(imageVector = Icons.Default.Add, onClick = { Log.d("Icon", "BillForm: Add")})
-                    }
+                    RoundIconButton(
+                        imageVector = Icons.Default.Add,
+                        onClick = { Log.d("Icon", "BillForm: Add") })
                 }
-
-            } else {
-                Box() {}
             }
+
+            // Tip Row
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 3.dp, vertical = 12.dp)
+
+            ) {
+                Text(text = "Tip", modifier = Modifier.align(Alignment.CenterVertically))
+                Spacer(modifier = Modifier.width(200.dp))
+                Text(text = "$33.00", modifier = Modifier.align(Alignment.CenterVertically))
+            }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "33%")
+                Spacer(modifier = Modifier.height(14.dp))
+
+                //Slider
+                Slider(
+                    value = sliderPositionState.value, onValueChange = { newVal ->
+                    sliderPositionState.value = newVal
+                })
+            }
+
+//            } else {
+//                Box() {}
+//            }
         }
     }
 }
