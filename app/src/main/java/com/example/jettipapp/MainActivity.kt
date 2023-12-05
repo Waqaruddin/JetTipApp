@@ -60,12 +60,13 @@ fun MyApp(content: @Composable () -> Unit) {
     }
 }
 
-//@Preview
+
 @Composable
 fun TopHeader(totalPerPerson: Double = 134.0) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(15.dp)
             .height(150.dp)
             .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp))),
         color = Color(0xFFE9D7F7)
@@ -109,6 +110,8 @@ fun BillForm(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val sliderPositionState = remember { mutableStateOf(0f) }
+
+    TopHeader()
 
     Surface(
         modifier = Modifier
@@ -183,8 +186,11 @@ fun BillForm(
                 //Slider
                 Slider(
                     value = sliderPositionState.value, onValueChange = { newVal ->
-                    sliderPositionState.value = newVal
-                })
+                        sliderPositionState.value = newVal
+                    },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    steps = 5
+                )
             }
 
 //            } else {
